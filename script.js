@@ -28,18 +28,21 @@ function logout() {
     document.getElementById('dashboard').style.display = 'none';
     document.getElementById('username').value = '';
     document.getElementById('password').value = '';
+    document.getElementById('gallery').innerHTML = '';
 }
 
 function uploadMedia() {
     const user = document.getElementById('userDisplay').innerText;
     const files = document.getElementById('mediaUpload').files;
     let gallery = JSON.parse(localStorage.getItem(user + '_gallery') || '[]');
+    let count = files.length;
     for (let file of files) {
         const reader = new FileReader();
         reader.onload = function(e) {
             gallery.push({ type: file.type, data: e.target.result });
             localStorage.setItem(user + '_gallery', JSON.stringify(gallery));
-            loadGallery(user);
+            count--;
+            if (count === 0) loadGallery(user);
         }
         reader.readAsDataURL(file);
     }
