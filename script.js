@@ -39,7 +39,7 @@ function uploadMedia() {
     for (let file of files) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            gallery.push({ type: file.type, data: e.target.result });
+            gallery.push({ name: file.name, type: file.type, data: e.target.result });
             localStorage.setItem(user + '_gallery', JSON.stringify(gallery));
             count--;
             if (count === 0) loadGallery(user);
@@ -53,15 +53,22 @@ function loadGallery(user) {
     galleryDiv.innerHTML = '';
     const gallery = JSON.parse(localStorage.getItem(user + '_gallery') || '[]');
     for (let item of gallery) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'media-item';
+        const label = document.createElement('p');
+        label.innerText = item.name;
+        wrapper.appendChild(label);
         if (item.type.startsWith('image')) {
             const img = document.createElement('img');
             img.src = item.data;
-            galleryDiv.appendChild(img);
+            wrapper.appendChild(img);
         } else if (item.type.startsWith('video')) {
             const video = document.createElement('video');
             video.src = item.data;
             video.controls = true;
-            galleryDiv.appendChild(video);
+            video.width = 200;
+            wrapper.appendChild(video);
         }
+        galleryDiv.appendChild(wrapper);
     }
 }

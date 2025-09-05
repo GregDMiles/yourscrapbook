@@ -15,7 +15,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     width: 90%;
-    max-width: 500px;
+    max-width: 600px;
     overflow-y: auto;
     max-height: 90vh;
 }
@@ -34,8 +34,21 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
-#gallery img, #gallery video {
+#gallery {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.media-item {
+    width: 200px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.media-item img, .media-item video {
     max-width: 100%;
-    margin-top: 10px;
     border-radius: 5px;
 }
