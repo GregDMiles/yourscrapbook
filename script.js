@@ -29,11 +29,17 @@ function logout() {
     document.getElementById('username').value = '';
     document.getElementById('password').value = '';
     document.getElementById('gallery').innerHTML = '';
+    document.getElementById('uploadStatus').innerText = '';
 }
 
 function uploadMedia() {
     const user = document.getElementById('userDisplay').innerText;
     const files = document.getElementById('mediaUpload').files;
+    if (files.length === 0) {
+        document.getElementById('uploadStatus').innerText = 'No files selected.';
+        return;
+    }
+    document.getElementById('uploadStatus').innerText = 'Uploading...';
     let gallery = JSON.parse(localStorage.getItem(user + '_gallery') || '[]');
     let count = files.length;
     for (let file of files) {
@@ -42,7 +48,10 @@ function uploadMedia() {
             gallery.push({ name: file.name, type: file.type, data: e.target.result });
             localStorage.setItem(user + '_gallery', JSON.stringify(gallery));
             count--;
-            if (count === 0) loadGallery(user);
+            if (count === 0) {
+                document.getElementById('uploadStatus').innerText = 'Upload complete.';
+                loadGallery(user);
+            }
         }
         reader.readAsDataURL(file);
     }
@@ -61,6 +70,7 @@ function loadGallery(user) {
         if (item.type.startsWith('image')) {
             const img = document.createElement('img');
             img.src = item.data;
+            img.alt = item.name;
             wrapper.appendChild(img);
         } else if (item.type.startsWith('video')) {
             const video = document.createElement('video');
