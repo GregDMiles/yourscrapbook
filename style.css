@@ -52,3 +52,7 @@ button {
     max-width: 100%;
     border-radius: 5px;
 }
+#uploadStatus {
+    color: green;
+    font-weight: bold;
+}
